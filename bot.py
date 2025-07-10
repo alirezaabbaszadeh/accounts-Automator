@@ -9,6 +9,7 @@ import pyotp
 
 DATA_FILE = Path('data.json')
 ADMIN_ID = 123456789  # replace with actual Telegram user id of admin
+ADMIN_PHONE = "+989152062041"  # manager contact number
 
 logging.basicConfig(level=logging.INFO)
 
@@ -30,6 +31,11 @@ data = load_data()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Welcome! Use /products to list products.')
+
+
+async def contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Send admin phone number."""
+    await update.message.reply_text(f'Admin phone: {ADMIN_PHONE}')
 
 
 def product_keyboard(product_id: str) -> InlineKeyboardMarkup:
@@ -266,6 +272,7 @@ def main(token: str):
     app = Application.builder().token(token).build()
 
     app.add_handler(CommandHandler('start', start))
+    app.add_handler(CommandHandler('contact', contact))
     app.add_handler(CommandHandler('products', products))
     app.add_handler(CallbackQueryHandler(buy_callback, pattern=r'^buy:'))
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
