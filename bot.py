@@ -134,6 +134,80 @@ async def addproduct(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Product added')
 
 
+async def editproduct(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id != ADMIN_ID:
+        return
+    try:
+        pid = context.args[0]
+        field = context.args[1]
+        value = context.args[2]
+    except IndexError:
+        await update.message.reply_text(
+            'Usage: /editproduct <id> <field> <value>'
+        )
+        return
+    product = data['products'].get(pid)
+    if not product:
+        await update.message.reply_text('Product not found')
+        return
+    if field not in {'price', 'username', 'password', 'secret'}:
+        await update.message.reply_text('Invalid field')
+        return
+    product[field] = value
+    save_data(data)
+    await update.message.reply_text('Product updated')
+
+
+async def resend(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id != ADMIN_ID:
+        return
+    try:
+        pid = context.args[0]
+    except IndexError:
+        await update.message.reply_text('Usage: /resend <product_id> [user_id]')
+        return
+    product = data['products'].get(pid)
+    if not product:
+        await update.message.reply_text('Product not found')
+        return
+    buyers = product.get('buyers', [])
+    if len(context.args) > 1:
+        try:
+            uid = int(context.args[1])
+        except ValueError:
+            await update.message.reply_text('Invalid user id')
+            return
+        buyers = [uid] if uid in buyers else []
+    if not buyers:
+        await update.message.reply_text('No buyers to send to')
+        return
+    msg = f"Username: {product.get('username')}\nPassword: {product.get('password')}"
+    for uid in buyers:
+        await context.bot.send_message(uid, msg)
+        await context.bot.send_message(uid, f"Use /code {pid} to get your current authenticator code.")
+    await update.message.reply_text('Credentials resent')
+
+
+async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id != ADMIN_ID:
+        return
+    try:
+        pid = context.args[0]
+    except IndexError:
+        await update.message.reply_text('Usage: /stats <product_id>')
+        return
+    product = data['products'].get(pid)
+    if not product:
+        await update.message.reply_text('Product not found')
+        return
+    buyers = product.get('buyers', [])
+    text = (
+        f"Price: {product.get('price')}\n"
+        f"Total buyers: {len(buyers)}"
+    )
+    await update.message.reply_text(text)
+
+
 async def buyers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.from_user.id != ADMIN_ID:
         return
@@ -198,9 +272,12 @@ def main(token: str):
     app.add_handler(CommandHandler('approve', approve))
     app.add_handler(CommandHandler('code', code))
     app.add_handler(CommandHandler('addproduct', addproduct))
+    app.add_handler(CommandHandler('editproduct', editproduct))
     app.add_handler(CommandHandler('buyers', buyers))
     app.add_handler(CommandHandler('deletebuyer', deletebuyer))
     app.add_handler(CommandHandler('clearbuyers', clearbuyers))
+    app.add_handler(CommandHandler('resend', resend))
+    app.add_handler(CommandHandler('stats', stats))
 
     app.run_polling()
 
