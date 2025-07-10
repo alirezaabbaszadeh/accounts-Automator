@@ -8,6 +8,9 @@ This project contains a simple Telegram bot for selling products with manual pay
 - Admin approves purchases and credentials are sent to the buyer.
 - Buyers can obtain a current authenticator code with `/code <product_id>`.
 - Admin can list and manage buyers.
+- Admin can edit product fields with `/editproduct` and resend credentials with
+  `/resend`.
+- Stats for each product available via `/stats`.
 
 ## Setup
 1. Install dependencies:
