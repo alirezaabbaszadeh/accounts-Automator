@@ -1,6 +1,7 @@
 # Telegram bot for managing product sales with TOTP support
 import json
 import logging
+import os
 from pathlib import Path
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -8,8 +9,8 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 import pyotp
 
 DATA_FILE = Path('data.json')
-ADMIN_ID = 123456789  # replace with actual Telegram user id of admin
-ADMIN_PHONE = "+989152062041"  # manager contact number
+ADMIN_ID = int(os.getenv("ADMIN_ID", "123456789"))  # replace with your Telegram user id
+ADMIN_PHONE = os.getenv("ADMIN_PHONE", "+989152062041")  # manager contact number
 
 logging.basicConfig(level=logging.INFO)
 
