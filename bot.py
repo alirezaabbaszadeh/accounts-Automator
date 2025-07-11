@@ -100,6 +100,17 @@ async def buy(update: Update, context: ContextTypes.DEFAULT_TYPE):
     save_data()
 
 
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.effective_user.id)
+    purchase = DATA["purchases"].get(user_id)
+    if not purchase or purchase.get("status") != "pending":
+        await update.message.reply_text("No pending purchase found")
+        return
+    purchase["status"] = "cancelled"
+    save_data()
+    await update.message.reply_text("Purchase cancelled")
+
+
 @admin_required
 async def confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if len(context.args) < 4:
@@ -191,6 +202,7 @@ if __name__ == "__main__":
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("listproducts", listproducts))
     application.add_handler(CommandHandler("buy", buy))
+    application.add_handler(CommandHandler("cancel", cancel))
     application.add_handler(CommandHandler("getcode", getcode))
 
     application.add_handler(CommandHandler("addproduct", addproduct))
