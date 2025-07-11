@@ -17,6 +17,7 @@ from a provided secret.
   - `/listproducts` – list available products
   - `/buy <product>` – start a purchase and send payment screenshot
   - `/getcode` – retrieve the current TOTP code
+  - `/myorders` – list your purchases and their status
 
 Product and purchase data are stored in `data.json` in the repository
 folder.
