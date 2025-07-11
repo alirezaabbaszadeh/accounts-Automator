@@ -28,10 +28,9 @@ folder.
    pip install python-telegram-bot pyotp
    ```
 2. Set the `BOT_TOKEN` environment variable with your bot's token.
-3. Run the bot:
+3. Set the `ADMIN_IDS` environment variable to a comma-separated list of the
+   Telegram user IDs that should have admin access.
+4. Run the bot:
    ```bash
    python bot.py
    ```
-
-Edit `ADMIN_IDS` in `bot.py` and populate it with the Telegram user IDs of the
-administrators who can manage products and confirm purchases.
