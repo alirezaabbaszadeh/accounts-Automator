@@ -181,6 +181,29 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Send a list of available commands."""
+    user_commands = [
+        "/listproducts - list available products",
+        "/buy <product> - start a purchase and send payment screenshot",
+        "/getcode - retrieve the current TOTP code",
+        "/help - show this message",
+    ]
+    admin_commands = [
+        "/addproduct <name> <price> <quantity> - add a new product",
+        "/editproduct <name> <price> <quantity> - edit an existing product",
+        "/confirm <user_id> <username> <password> <secret> - confirm a purchase",
+        "/listbuyers <product> - list buyers of a product",
+        "/deletebuyer <user_id> - remove a buyer",
+    ]
+
+    if update.effective_user.id in ADMIN_IDS:
+        lines = ["Admin commands:"] + admin_commands + ["", "User commands:"] + user_commands
+    else:
+        lines = ["User commands:"] + user_commands
+    await update.message.reply_text("\n".join(lines))
+
+
 if __name__ == "__main__":
     TOKEN = os.environ.get("BOT_TOKEN")
     if not TOKEN:
@@ -192,6 +215,7 @@ if __name__ == "__main__":
     application.add_handler(CommandHandler("listproducts", listproducts))
     application.add_handler(CommandHandler("buy", buy))
     application.add_handler(CommandHandler("getcode", getcode))
+    application.add_handler(CommandHandler("help", help_command))
 
     application.add_handler(CommandHandler("addproduct", addproduct))
     application.add_handler(CommandHandler("editproduct", editproduct))
