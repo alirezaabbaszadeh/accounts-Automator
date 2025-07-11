@@ -38,8 +38,9 @@ Build the image:
 docker build -t accounts-bot .
 ```
 
-Run the container with your bot token:
+Run the container with your bot token. You can also set environment variables
+for the admin using `-e` flags:
 
 ```bash
-docker run --rm accounts-bot <TOKEN>
+docker run --rm -e ADMIN_ID=<YOUR_ID> -e ADMIN_PHONE=<YOUR_PHONE> accounts-bot <TOKEN>
 ```
