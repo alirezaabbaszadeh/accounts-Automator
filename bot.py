@@ -146,6 +146,22 @@ async def getcode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"Your code: {code}")
 
 
+async def myorders(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """List the user's purchases with product name and status."""
+    user_id = str(update.effective_user.id)
+    orders = []
+    for uid, info in DATA["purchases"].items():
+        if uid == user_id or info.get("user_id") == user_id:
+            product = info.get("product", "unknown")
+            status = info.get("status", "pending")
+            orders.append(f"{product} - {status}")
+
+    if not orders:
+        await update.message.reply_text("No purchases found")
+    else:
+        await update.message.reply_text("\n".join(orders))
+
+
 @admin_required
 async def listbuyers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if len(context.args) < 1:
@@ -194,6 +210,7 @@ if __name__ == "__main__":
     application.add_handler(CommandHandler("listproducts", listproducts))
     application.add_handler(CommandHandler("buy", buy))
     application.add_handler(CommandHandler("getcode", getcode))
+    application.add_handler(CommandHandler("myorders", myorders))
 
     application.add_handler(CommandHandler("addproduct", addproduct))
     application.add_handler(CommandHandler("editproduct", editproduct))
