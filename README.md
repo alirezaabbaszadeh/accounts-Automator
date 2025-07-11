@@ -18,9 +18,11 @@ This project contains a simple Telegram bot for selling products with manual pay
    ```bash
    pip install -r requirements.txt
    ```
-2. Create `data.json` (already included). Set the following environment variables or rely on the defaults in `bot.py`:
+2. Create `data.json` (already included). Set the following environment variables **before** running the bot:
    - `ADMIN_ID` – Telegram user ID of the admin
    - `ADMIN_PHONE` – phone number shown when users run `/contact`
+   
+   `bot.py` does not provide real defaults for these values, so you must set them explicitly.
 3. Run the bot with your bot token:
    ```bash
    python bot.py <TOKEN>

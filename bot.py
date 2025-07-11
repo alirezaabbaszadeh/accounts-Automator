@@ -9,8 +9,8 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 import pyotp
 
 DATA_FILE = Path('data.json')
-ADMIN_ID = int(os.getenv("ADMIN_ID", "123456789"))  # replace with your Telegram user id
-ADMIN_PHONE = os.getenv("ADMIN_PHONE", "+989152062041")  # manager contact number
+ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))  # Telegram user id of the admin
+ADMIN_PHONE = os.getenv("ADMIN_PHONE", "")  # manager contact number
 
 logging.basicConfig(level=logging.INFO)
 
