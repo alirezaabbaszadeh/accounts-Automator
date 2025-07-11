@@ -2,6 +2,7 @@
 import json
 import logging
 import os
+import sys
 from pathlib import Path
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -9,7 +10,11 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 import pyotp
 
 DATA_FILE = Path('data.json')
-ADMIN_ID = int(os.getenv("ADMIN_ID", "123456789"))  # replace with your Telegram user id
+try:
+    ADMIN_ID = int(os.getenv("ADMIN_ID", "123456789"))
+except ValueError as e:
+    logging.error("ADMIN_ID must be an integer")
+    raise SystemExit("ADMIN_ID must be an integer") from e
 ADMIN_PHONE = os.getenv("ADMIN_PHONE", "+989152062041")  # manager contact number
 
 logging.basicConfig(level=logging.INFO)
