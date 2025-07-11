@@ -1,0 +1,10 @@
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Local data
+data.json
