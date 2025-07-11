@@ -18,13 +18,15 @@ This project contains a simple Telegram bot for selling products with manual pay
    ```bash
    pip install -r requirements.txt
    ```
-2. Create `data.json` with the following structure:
+2. The bot stores its state in a `data.json` file which is ignored by Git.
+   The file will be created automatically on first run if it doesn't exist.
+   If you prefer to create it manually, start with the following content:
 
    ```json
    {"products": {}, "pending": []}
    ```
 
-   Set the following environment variables or rely on the defaults in `bot.py`:
+   Set the following environment variables explicitly:
    - `ADMIN_ID` – Telegram user ID of the admin
    - `ADMIN_PHONE` – phone number shown when users run `/contact`
 3. Run the bot with your bot token:
