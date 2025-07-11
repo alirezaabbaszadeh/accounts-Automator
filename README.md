@@ -25,3 +25,19 @@ This project contains a simple Telegram bot for selling products with manual pay
    ```
 
 This is a minimal implementation and does not include persistent database storage or full error handling.
+
+## Docker
+
+A `Dockerfile` is provided to run the bot in a container.
+
+Build the image:
+
+```bash
+docker build -t accounts-bot .
+```
+
+Run the container with your bot token:
+
+```bash
+docker run --rm accounts-bot <TOKEN>
+```
