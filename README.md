@@ -13,10 +13,12 @@ from a provided secret.
   - `/confirm <user_id> <username> <password> <secret>` – confirm a purchase
   - `/listbuyers <product>` – list buyers of a product
   - `/deletebuyer <user_id>` – remove a buyer
+  - `/help` – show available commands
 - **User commands**
   - `/listproducts` – list available products
   - `/buy <product>` – start a purchase and send payment screenshot
   - `/getcode` – retrieve the current TOTP code
+  - `/help` – show available commands
 
 Product and purchase data are stored in `data.json` in the repository
 folder.
