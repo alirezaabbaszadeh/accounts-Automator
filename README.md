@@ -16,6 +16,7 @@ from a provided secret.
 - **User commands**
   - `/listproducts` – list available products
   - `/buy <product>` – start a purchase and send payment screenshot
+  - `/cancel` – cancel a pending purchase
   - `/getcode` – retrieve the current TOTP code
   - `/myorders` – list your purchases and their status
 
