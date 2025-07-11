@@ -17,7 +17,9 @@ if os.path.exists(DATA_FILE):
 else:
     DATA = {"products": {}, "purchases": {}}
 
-ADMIN_IDS = []  # Fill with admin Telegram user IDs
+admin_ids_env = os.environ.get("ADMIN_IDS", "")
+# Comma-separated admin Telegram user IDs
+ADMIN_IDS = [int(i.strip()) for i in admin_ids_env.split(',') if i.strip()]
 
 
 def save_data() -> None:
